@@ -2,6 +2,8 @@
 
 * 概要
 
+[[https://misohena.jp/blog/2020-05-02-js-igo-2020.html][JavaScript碁盤 | Misohena Blog]] で紹介されていたソースコードをforkしたものです。
+
 ブラウザ上で使える碁盤です。囲碁クエストのウェブ版に検討機能が無かったので作りました。詰碁等をウェブページに貼り付けられるようにするための機能も追加しています。
 
 [[file:./screenshot.png]]
