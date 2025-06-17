@@ -1,82 +1,82 @@
-#+TITLE: JavaScript���
+#+TITLE: JavaScript碁盤
 
-* �T�v
+* 概要
 
-[[https://misohena.jp/blog/2020-05-02-js-igo-2020.html][JavaScript��� | Misohena Blog]] �ŏЉ��Ă����\�[�X�R�[�h��fork�������̂ł��B
+[[https://misohena.jp/blog/2020-05-02-js-igo-2020.html][JavaScript碁盤 | Misohena Blog]] で紹介されていたソースコードをforkしたものです。
 
-�u���E�U��Ŏg�����Ղł��B�͌�N�G�X�g�̃E�F�u�łɌ����@�\�����������̂ō��܂����B�l�铙���E�F�u�y�[�W�ɓ\��t������悤�ɂ��邽�߂̋@�\���ǉ����Ă��܂��B
+ブラウザ上で使える碁盤です。囲碁クエストのウェブ版に検討機能が無かったので作りました。詰碁等をウェブページに貼り付けられるようにするための機能も追加しています。
 
 [[file:./screenshot.png]]
 
-** ���s���@
-Github Pages�ɒu���Ă���܂��B
+** 実行方法
+Github Pagesに置いてあります。
 
-- ��� :: [[https://misohena.github.io/js_igo/]]
-- ���ߍ��ݎg�p�� :: [[https://misohena.github.io/js_igo/examples.html]]
+- 碁盤 :: [[https://misohena.github.io/js_igo/]]
+- 埋め込み使用例 :: [[https://misohena.github.io/js_igo/examples.html]]
 
-** ��ȋ@�\
+** 主な機能
 
-- �ՖʃT�C�Y�� 1x1 �` 52x52 �܂ł̔񐳕��`�ɑΉ�
-- �ȈՓI��SGF�C���|�[�g/�G�N�X�|�[�g
-- ����L�^�E�Ֆʕ\���@�\
-- �R�����g�\���E�ݒ�@�\
-- �t���[�ҏW�@�\
-- �}�[�N�ҏW�@�\
-- ����ԍ��\��
-- ���X�|���V�u�Ή�
-- �Ֆʂ̃s���`�E�X���C�v����ɂ��g��E�X�N���[��
-- �E�F�u�y�[�W�ւ̖��ߍ��ݑΉ� (�l��A�����̕\��)
-- �����Đ��@�\
-- ���ݔՖʂ�菇��URL���L�@�\
+- 盤面サイズは 1x1 〜 52x52 までの非正方形に対応
+- 簡易的なSGFインポート/エクスポート
+- 分岐記録・盤面表示機能
+- コメント表示・設定機能
+- フリー編集機能
+- マーク編集機能
+- 着手番号表示
+- レスポンシブ対応
+- 盤面のピンチ・スワイプ操作による拡大・スクロール
+- ウェブページへの埋め込み対応 (詰碁、棋譜の表示)
+- 自動再生機能
+- 現在盤面や手順のURL共有機能
 
-SGF�͎��̃v���p�e�B�ɑΉ����Ă��܂��B
-- ���[�g�m�[�h�ł̔ՖʃT�C�Y�w��(SZ)(�񐳕��`�T�C�Y�\)
-- ���[�g�m�[�h�ł̕\���G���A�w��(VW)
-- �Z�b�g�A�b�v�v���p�e�B(PL, AB, AW, AE)
-- �e�m�[�h�ɂ�1�̃R�����g(C)
-- ����(B, W)
-- �}�[�N�A�b�v(MA, CR, SQ, TR, LB)
-- �Q�[�����(CP,US,AN,SO,EV,GN,RO,DT,PC,BT,PB,BR,WT,PW,WR,RU,OT,TM,HA,KM,RE,ON,GC)
+SGFは次のプロパティに対応しています。
+- ルートノードでの盤面サイズ指定(SZ)(非正方形サイズ可能)
+- ルートノードでの表示エリア指定(VW)
+- セットアッププロパティ(PL, AB, AW, AE)
+- 各ノードにつき1つのコメント(C)
+- 着手(B, W)
+- マークアップ(MA, CR, SQ, TR, LB)
+- ゲーム情報(CP,US,AN,SO,EV,GN,RO,DT,PC,BT,PB,BR,WT,PW,WR,RU,OT,TM,HA,KM,RE,ON,GC)
 
-�͌�N�G�X�g�ŃG�N�X�|�[�g����SGF���y�[�X�g���Ċm�F�����ق��A�E���Ă����l��̊������y�[�X�g���Ċm�F���Ă��܂��B
+囲碁クエストでエクスポートしたSGFをペーストして確認したほか、拾ってきた詰碁の棋譜をペーストして確認しています。
 
-* ���ߍ��ݎg�p���@
+* 埋め込み使用方法
 
-DOM�c���[�Ɍ�Ղ�ǉ�����ɂ�GameView�I�u�W�F�N�g���쐬���܂��B
+DOMツリーに碁盤を追加するにはGameViewオブジェクトを作成します。
 
 #+begin_src js
 var gameView = new igo.GameView(placement, game, options)
 #+end_src
 
-/placement/ ��HTML�v�f���ǂ��ɔz�u���邩���w�肵�܂��B���̂����ꂩ���w��o���܂��B
+/placement/ はHTML要素をどこに配置するかを指定します。次のいずれかを指定出来ます。
 
-- /<�e�v�f�܂��͐e�v�f��id>/ : �w�肵���v�f�̎q�Ƃ��Ēǉ����܂��Bunder�Ɠ����ł�
-- {under: /<�e�v�f�܂��͐e�v�f��id>/ } : �w�肵���v�f�̎q�Ƃ��Ēǉ����܂�
-- {after: /<�O�̗v�f�܂��͑O�̗v�f��id>/ } : �w�肵���v�f�̎��ɒǉ����܂��B
-- {before: /<���̗v�f�܂��͎��̗v�f��id>/ } : �w�肵���v�f�̑O�ɒǉ����܂��B
-- /<script�v�f�܂���script�v�f��id>/ : �v�f���w�肷��ƒʏ��under�Ɠ����ɂȂ�܂����Ascript�v�f�̏ꍇ�͗�O�I��after�Ɠ������ʂ������܂��B�Ⴆ�� =document.currentScript= ��n���ƌ��ݎ��s����script�v�f�̎��ɑ}�����܂�
-- null : ���͒ǉ�������Œǉ����܂��B�ǉ���������ɕʓr =gameView.fitBoardSizeToWindowAndParent()= ���Ăяo���ăT�C�Y�̒������s���K�v������܂�
+- /<親要素または親要素のid>/ : 指定した要素の子として追加します。underと同じです
+- {under: /<親要素または親要素のid>/ } : 指定した要素の子として追加します
+- {after: /<前の要素または前の要素のid>/ } : 指定した要素の次に追加します。
+- {before: /<次の要素または次の要素のid>/ } : 指定した要素の前に追加します。
+- /<script要素またはscript要素のid>/ : 要素を指定すると通常はunderと同じになりますが、script要素の場合は例外的にafterと同じ効果を持ちます。例えば =document.currentScript= を渡すと現在実行中のscript要素の次に挿入します
+- null : 今は追加せず後で追加します。追加した直後に別途 =gameView.fitBoardSizeToWindowAndParent()= を呼び出してサイズの調整を行う必要があります
 
-  ��:
+  例:
   #+begin_src js
 const gameView = new igo.GameView(null);
 parent.appendChild(gameView.rootElement);
 gameView.fitBoardSizeToWindowAndParent();
   #+end_src
 
-/game/ �͕\���Ώۂ̃Q�[���̏�Ԃ�ێ�����I�u�W�F�N�g�ł��B���̂����ꂩ���w��o���܂��B
+/game/ は表示対象のゲームの状態を保持するオブジェクトです。次のいずれかを指定出来ます。
 
-- new igo.Game(/<w>/, /<h>/) : ��̔Ֆʂ��쐬���܂�
-- igo.Game.fromSGF("/<SGF>/") : SGF(����)����Q�[���I�u�W�F�N�g���쐬���܂�
-- "/<SGF>/" : �������n����SGF�ƌ��Ȃ��Ď����I�ɃQ�[���I�u�W�F�N�g���쐬���܂�
-- undefined : /game/ ���ȗ������ꍇ�� =new igo.Game(9)= �Ɠ����ɂȂ�܂�
+- new igo.Game(/<w>/, /<h>/) : 空の盤面を作成します
+- igo.Game.fromSGF("/<SGF>/") : SGF(棋譜)からゲームオブジェクトを作成します
+- "/<SGF>/" : 文字列を渡すとSGFと見なして自動的にゲームオブジェクトを作成します
+- undefined : /game/ を省略した場合は =new igo.Game(9)= と同じになります
 
-/options/ ��GameView�̓�����J�X�^�}�C�Y���邽�߂̗l�X�ȃI�v�V������ێ�����I�u�W�F�N�g�ł��B
-�ڂ�����[[*GameView�̃I�v�V����][GameView�̃I�v�V����]]���Q�Ƃ��Ă��������B
+/options/ はGameViewの動作をカスタマイズするための様々なオプションを保持するオブジェクトです。
+詳しくは[[*GameViewのオプション][GameViewのオプション]]を参照してください。
 
-** HTML�Ŗ��ߍ��ޕ��@
+** HTMLで埋め込む方法
 
-���ߍ��ޏꏊ�ɖ���script�v�f�����������Ȃ��ꍇ�́A���̂悤��div�v�f��data������ݒ肵�Ă�����
+埋め込む場所に毎回script要素を書きたくない場合は、次のようにdiv要素にdata属性を設定しておいて
 
 #+begin_src html
 <div data-igo-sgf="(;GM[1]SZ[9]VW[da:id]AW[ea]AB[fa]AW[eb]AB[fb:ib]AW[ec:ic])"
@@ -84,7 +84,7 @@ gameView.fitBoardSizeToWindowAndParent();
 </div>
 #+end_src
 
-head������Ɏ��̂悤�ȃX�N���v�g���d����ł����Ηǂ��ł��傤�B
+headあたりに次のようなスクリプトを仕込んでおけば良いでしょう。
 
 #+begin_src js
 window.addEventListener("load", ev=>{
@@ -97,87 +97,87 @@ window.addEventListener("load", ev=>{
 });
 #+end_src
 
-�y�[�W���ǂݍ��ݏI������Ƃ���data-igo-sgf���������S�Ă�div��GameView��ǉ����܂��B
+ページが読み込み終わったときにdata-igo-sgf属性を持つ全てのdivにGameViewを追加します。
 
-* ���t�@�����X
+* リファレンス
 ** GameView
-*** GameView�̃I�v�V����
+*** GameViewのオプション
 
-| �v���p�e�B               | ����                                                 | �w��\�Ȓl                                                             | �f�t�H���g                                                                               |
+| プロパティ               | 説明                                                 | 指定可能な値                                                             | デフォルト                                                                               |
 |--------------------------+------------------------------------------------------+--------------------------------------------------------------------------+------------------------------------------------------------------------------------------|
-| editable                 | �ҏW�\��                                           | boolean                                                                  | true                                                                                     |
-| showBranches             | �Ֆʂɕ���𕶎��ŕ\�����邩                         | boolean                                                                  | false                                                                                    |
-| showMoveNumber           | �΂̏�ɒ���ԍ���\�����邩                         | boolean                                                                  | false                                                                                    |
-| showLastMoveMark         | �Ō�ɒu�����΂Ƀ}�[�N��\�����邩                   | boolean                                                                  | false                                                                                    |
-| rotate180                | �Ֆʂ�180�x��]�����邩(�����猩���}�ɂ��邩)        | boolean                                                                  | false                                                                                    |
-| preventRedoAtBranchPoint | ����_�Ń��h�D���֎~���邩(�K������_��I�������邩) | boolean                                                                  | false                                                                                    |
-| autoMove                 | �������胂�[�h                                       | igo.BLACK, igo.WHITE, true, false                                        | false                                                                                    |
-| showComment              | �R�����g����\�����邩                               | boolean                                                                  | false                                                                                    |
-| [[*options.path][path]]                     | �ŏ��ɕ\������m�[�h                                 | number(�萔), string(SGF���W�܂��͕���), Array(number�܂���string�̔z��) | ���[�g��\��                                                                             |
-| gridInterval             | �Ֆʂ̐��̊Ԋu(px)                                   | number                                                                   |                                                                                          |
-| gridMargin               | �Ֆʂ̊i�q�̊O�̋�(px)                             | number                                                                   |                                                                                          |
-| [[*options.ui][ui]]                       | UI�v�f�̔z�u                                         | object                                                                   | {top:["GameStatus"], bottom:["MoveControl", "HistoryControl", "ViewControl", "Comment"]} |
-| enableWheel              | �}�E�X�z�C�[���C�x���g���g�p���邩                   | boolean                                                                  | true                                                                                     |
+| editable                 | 編集可能か                                           | boolean                                                                  | true                                                                                     |
+| showBranches             | 盤面に分岐を文字で表示するか                         | boolean                                                                  | false                                                                                    |
+| showMoveNumber           | 石の上に着手番号を表示するか                         | boolean                                                                  | false                                                                                    |
+| showLastMoveMark         | 最後に置いた石にマークを表示するか                   | boolean                                                                  | false                                                                                    |
+| rotate180                | 盤面を180度回転させるか(白から見た図にするか)        | boolean                                                                  | false                                                                                    |
+| preventRedoAtBranchPoint | 分岐点でリドゥを禁止するか(必ず着手点を選択させるか) | boolean                                                                  | false                                                                                    |
+| autoMove                 | 自動着手モード                                       | igo.BLACK, igo.WHITE, true, false                                        | false                                                                                    |
+| showComment              | コメント欄を表示するか                               | boolean                                                                  | false                                                                                    |
+| [[*options.path][path]]                     | 最初に表示するノード                                 | number(手数), string(SGF座標または分岐), Array(numberまたはstringの配列) | ルートを表示                                                                             |
+| gridInterval             | 盤面の線の間隔(px)                                   | number                                                                   |                                                                                          |
+| gridMargin               | 盤面の格子の外の空き(px)                             | number                                                                   |                                                                                          |
+| [[*options.ui][ui]]                       | UI要素の配置                                         | object                                                                   | {top:["GameStatus"], bottom:["MoveControl", "HistoryControl", "ViewControl", "Comment"]} |
+| enableWheel              | マウスホイールイベントを使用するか                   | boolean                                                                  | true                                                                                     |
 
 **** options.path
 
-options.path�͍ŏ��ɕ\������Ֆʂ��w�肵�܂��B
+options.pathは最初に表示する盤面を指定します。
 
-�������w�肵���ꍇ�A���̐��̎萔������̔Ֆʂ�I�����܂�(������Ζ���)�B���򂪂���ꍇ�͍ŏ��̕����I�т܂��B���̐����w�肵���ꍇ�A�O�̔Ֆʂ֖߂�܂�(������ΐ擪)�B
+数字を指定した場合、その数の手数だけ後の盤面を選択します(無ければ末尾)。分岐がある場合は最初の分岐を選びます。負の数を指定した場合、前の盤面へ戻ります(無ければ先頭)。
 
-��������w�肵���ꍇ�A���̂����ꂩ�ł��B
+文字列を指定した場合、次のいずれかです。
 
-- �A���t�@�x�b�g�񕶎��̏ꍇ�ASGF���W�Ō�_���w�肵�����̂ƌ��Ȃ����̏ꏊ�ɒ��肵���ł��萔�����Ȃ��Ֆʂ�I�����܂��B
-- �A���t�@�x�b�g�ꕶ���̏ꍇ�A���̕���_�ł̕����(A:0, B:1, ...)���w�肵�����̂ƌ��Ȃ����̕��򒼌�̔Ֆʂ�I�����܂��B
-- "_" ���w�肵���ꍇ�A�ŏ��ɕ��򂪂���Ֆʂ�I�����܂��B
+- アルファベット二文字の場合、SGF座標で交点を指定したものと見なしその場所に着手した最も手数が少ない盤面を選択します。
+- アルファベット一文字の場合、次の分岐点での分岐先(A:0, B:1, ...)を指定したものと見なしその分岐直後の盤面を選択します。
+- "_" を指定した場合、最初に分岐がある盤面を選択します。
 
-�z����w�肵���ꍇ�A�z��̊e�v�f�ł̑I�����J��Ԃ��Ă��ǂ蒅�����Ֆʂ�I�����܂��B
+配列を指定した場合、配列の各要素での選択を繰り返してたどり着いた盤面を選択します。
 
-��:
-- 12 : �ŏ�����12��ڂ̔Ֆ�
-- "cd" : �ŏ���3��4�ɒ��肵���Ֆ�
-- ["cc", "fc"] : �ŏ��ɍ���O�X(cc)�ɒ��肵����A���ɍŏ��ɓ�ԊJ��(fc)�����Ֆ�
-- ["cc", 2] : �O�X�ɒ��肵�����2���
-- ["A", "B", "A"] : �����A�AB�AA�̏��ɑI�������Ֆ�
-- ["A", "_", -1] : �ŏ��̕����A��I�����A���̌�̍ŏ��̕���̈��O�̔Ֆ�
+例:
+- 12 : 最初から12手目の盤面
+- "cd" : 最初に3の4に着手した盤面
+- ["cc", "fc"] : 最初に左上三々(cc)に着手した後、次に最初に二間開き(fc)した盤面
+- ["cc", 2] : 三々に着手した後の2手目
+- ["A", "B", "A"] : 分岐をA、B、Aの順に選択した盤面
+- ["A", "_", -1] : 最初の分岐でAを選択し、その後の最初の分岐の一つ手前の盤面
 
 **** options.ui
 
-options.ui��UI�v�f(�{�^����)�̔z�u���w�肵�܂��B
+options.uiはUI要素(ボタン類)の配置を指定します。
 
 #+begin_src js
 {
-    top: �Ղ̏�ɕ\������v�f�̔z��,
-    bottom: �Ղ̉��ɕ\������v�f�̔z��,
+    top: 盤の上に表示する要素の配列,
+    bottom: 盤の下に表示する要素の配列,
 }
 #+end_src
 
-�z��̗v�f�Ƃ��Ď��̂��̂��w��ł��܂��B
+配列の要素として次のものが指定できます。
 
-| �v�f                 | ����                                                                         |
+| 要素                 | 説明                                                                         |
 |----------------------+------------------------------------------------------------------------------|
-| "GameStatus"         | �Q�[���̏�Ԃ�\������e�L�X�g                                               |
-| "Menu"               | ���C�����j���[�{�^��                                                         |
-| "Pass"               | �p�X�{�^��                                                                   |
-| "Resign"             | �����{�^��                                                                   |
-| "UndoAll"            | �ŏ��ɖ߂�{�^��                                                             |
-| "Undo"               | ��߂�{�^��                                                               |
-| "Redo"               | ��i�ރ{�^��                                                               |
-| "RedoAll"            | �Ō�ɐi�ރ{�^��                                                             |
-| "ToggleBranchText"   | ����\���`�F�b�N�{�b�N�X                                                     |
-| "ToggleMoveNumber"   | ����ԍ��\���`�F�b�N�{�b�N�X                                                 |
-| "ToggleLastMoveMark" | �ŏI����}�[�N�\���`�F�b�N�{�b�N�X                                           |
-| "ToggleRotate180"    | 180�x��]�`�F�b�N�{�b�N�X                                                    |
-| "ToggleComment"      | �R�����g�\���`�F�b�N�{�b�N�X                                                 |
-| "Comment"            | �R�����g��                                                                   |
+| "GameStatus"         | ゲームの状態を表示するテキスト                                               |
+| "Menu"               | メインメニューボタン                                                         |
+| "Pass"               | パスボタン                                                                   |
+| "Resign"             | 投了ボタン                                                                   |
+| "UndoAll"            | 最初に戻るボタン                                                             |
+| "Undo"               | 一つ戻るボタン                                                               |
+| "Redo"               | 一つ進むボタン                                                               |
+| "RedoAll"            | 最後に進むボタン                                                             |
+| "ToggleBranchText"   | 分岐表示チェックボックス                                                     |
+| "ToggleMoveNumber"   | 着手番号表示チェックボックス                                                 |
+| "ToggleLastMoveMark" | 最終着手マーク表示チェックボックス                                           |
+| "ToggleRotate180"    | 180度回転チェックボックス                                                    |
+| "ToggleComment"      | コメント表示チェックボックス                                                 |
+| "Comment"            | コメント欄                                                                   |
 | "MoveControl"        | ["Menu", "Pass", "Resign"]                                                   |
 | "HistoryControl"     | ["UndoAll", "Undo", "Redo", "RedoAll"]                                       |
 | "UndoRedo"           | ["UndoAll", "Undo", "Redo", "RedoAll"]                                       |
 | "ViewControl"        | ["ToggleBranchText", "ToggleMoveNumber", "ToggleComment", "ToggleRotate180"] |
-| �z��                 | �R���g���[���o�[(div.igo-control-bar)�̒��ɗv�f���쐬����                    |
+| 配列                 | コントロールバー(div.igo-control-bar)の中に要素を作成する                    |
 
-* �J������
-** ��{�I�ȍ\��
+* 開発メモ
+** 基本的な構造
 
 : (igo_view.js)
 :    GameView -> BoardElement
@@ -186,6 +186,6 @@ options.ui��UI�v�f(�{�^����)�̔z�u���w�肵�܂��B
 :                     -> HistoryTree -> HistoryNode
 : (igo.js)
 
-** �����N
+** リンク
 
 - [[https://www.red-bean.com/sgf/][SGF file format FF(4)]]
