@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="icons/favicon.ico" />
+    <link rel="apple-touch-icon" size="180x180" href="icons/icon-180.png" />
+    <link rel="stylesheet" href="igo.css" />
+    <script src="igo.js?ver=20200514"></script>
+    <script src="igo_view.js?ver=20200514"></script>
+    <title>js_igo examples</title>
+    <style>
+    section {margin-left: 2rem;}
+    h2 {margin-left: -1rem;}
+    </style>
+  </head>
+  <body>
+    <h3>星の定石</h3>
+    <section>
+      <p>小ゲイマ受け→スベリ</p>
+
+      <script>
+      new igo.GameView(
+          // placement
+          // - <parentNode or ID>
+          // - {under:<parentNode or ID>}
+          // - {after:<previousSibling or ID>}
+          // - {before:<nextSibling or ID>}
+          // - <script element or ID> (same as {after:<script element or ID>})
+          // - null
+          //     (ex:
+          //       const gameView = new igo.GameView(null);
+          //       parent.appendChild(gameView.rootElement);
+          //       gameView.fitBoardSizeToWindowAndParent();
+          //     )
+          {after: document.currentScript},
+
+          // game object
+          // - new igo.Game(19)
+          // - igo.Game.fromSGF("<SGF>")
+          // - "<SGF>"
+          // - undefined  (default:9x9 board)
+          igo.Game.fromSGF("(;GM[1]SZ[19]VW[aa:ss]C[黒番です。]AB[pd]AW[nc](;B[qf];W[pb];B[qc];W[kc];B[ld];W[lc];B[nd]C[いい感じ])(;B[nd]C[定石も知らねーのか！アホ！])(;B[qc]C[定石も知らねーのか！バカ！])(;B[pc]C[バカかお前は！]))"),
+
+          // options
+          {
+              ui:{top: ["Comment"], bottom: ["UndoRedo"]},
+              showComment: true,
+	      showMoveNumber: true,
+              editable: false,
+              showBranchText: false,
+              showLastMoveMark: true,
+              preventRedoAtBranchPoint: true,
+              autoMove: igo.WHITE,
+              //path: ["ia","ha"]
+          }
+      );
+      </script>
+    </section>
+
+  </body>
+</html>
