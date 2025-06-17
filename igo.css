@@ -51,7 +51,7 @@ label {
     border: 1px solid #ccc;
     border-radius: 3px;
     padding: 0.5em;
-    height: 2em;
+    height: 3.0em;
     overflow: auto;
 }
 .igo-comment-textarea {
